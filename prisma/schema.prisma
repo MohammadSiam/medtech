@@ -1,0 +1,229 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Patient {
+  id        String   @id @default(uuid())
+  name      String
+  phone     String
+  age       Int
+  gender    String
+  createdAt DateTime @default(now())
+
+  appointments Appointment[]
+  invoices     BillingInvoice[]
+}
+
+model Doctor {
+  id                 String   @id @default(uuid())
+  code               String   @unique // e.g. DOC-001
+  name               String
+  type               String   // Consultant, Referral, Lab Doctor
+  specialization     String
+  bmdcNumber         String?
+  contact            String
+  status             String   // Active, Inactive
+  commissionCategory String   // Per Test, Per Patient, Per Package
+  commissionValue    Float    // Percentage or Fixed amount
+  createdAt          DateTime @default(now())
+
+  appointments Appointment[]
+  referredBills BillingInvoice[] @relation("ReferredBy")
+}
+
+model Test {
+  id             String   @id @default(uuid())
+  code           String   @unique // e.g. TST-001
+  name           String
+  category       String   // Pathology, Biochemistry, Radiology, USG, ECG, Serology
+  specimenType   String
+  price          Float
+  turnaroundTime String   // e.g. "4 Hours", "24 Hours"
+  normalRange    String   // e.g. "Numeric 70-100 mg/dL" or description
+  status         String   @default("Active") // Active, Inactive
+  createdAt      DateTime @default(now())
+
+  invoiceItems   InvoiceItem[]
+  reagentMapping ReagentMapping[]
+}
+
+model InvoiceItem {
+  id        String @id @default(uuid())
+  invoiceId String
+  testId    String
+  price     Float
+
+  invoice BillingInvoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+  test    Test           @relation(fields: [testId], references: [id])
+}
+
+model BillingInvoice {
+  id               String   @id @default(uuid())
+  invoiceNo        String   @unique // e.g. LAB/2026/0001
+  patientId        String
+  referredByDoctorId String?
+  discountType     String   // None, Percentage, Fixed
+  discountValue    Float    @default(0)
+  discountAmount   Float    @default(0)
+  vatPercent       Float    @default(0) // e.g. 5%
+  vatAmount        Float    @default(0)
+  serviceCharge    Float    @default(0)
+  totalDue         Float    @default(0)
+  totalPaid        Float    @default(0)
+  totalAmount      Float    @default(0) // Final calculated billed amount
+  netAmount        Float    @default(0) // Billed amount after discounts, before tax/charges or including? Let's say Total billed is final.
+  paymentStatus    String   // Paid, Unpaid, Partially Paid
+  paymentMethod    String   // Cash, Card, Mobile Banking, Mixed, Due
+  referralPaid     Boolean  @default(false)
+  referralCommPaid Float    @default(0)
+  reportStatus     String   @default("Pending") // Pending, Processing, Ready, Delivered
+  deliveredBy      String?
+  deliveredAt      DateTime?
+  refundStatus     String   @default("None") // None, Pending, Approved
+  createdAt        DateTime @default(now())
+
+  patient    Patient            @relation(fields: [patientId], references: [id])
+  referredBy Doctor?            @relation("ReferredBy", fields: [referredByDoctorId], references: [id])
+  items      InvoiceItem[]
+  refunds    RefundRequest[]
+}
+
+model Appointment {
+  id            String   @id @default(uuid())
+  appNo         String   @unique // e.g. APP-1002
+  patientId     String
+  doctorId      String
+  date          DateTime
+  preferredTime String
+  status        String   // Pending, Checked-In, Completed, Cancelled
+  priority      String   // Normal, Urgent
+  type          String   // Online, Offline
+  notes         String?
+  createdAt     DateTime @default(now())
+
+  patient Patient @relation(fields: [patientId], references: [id])
+  doctor  Doctor  @relation(fields: [doctorId], references: [id])
+}
+
+model Reagent {
+  id               String   @id @default(uuid())
+  name             String
+  supplier         String
+  brandModel       String
+  machineName      String?
+  purchasePrice    Float
+  stockQty         Float    // e.g. Milliliters or units
+  lowStockAlert    Float
+  expiryDate       DateTime
+  lotNumber        String?
+  wastagePercent   Float    @default(0)
+  createdAt        DateTime @default(now())
+
+  mappings ReagentMapping[]
+}
+
+model ReagentMapping {
+  id          String @id @default(uuid())
+  testId      String
+  reagentId   String
+  qtyNeeded   Float  // consumption per test run
+
+  test    Test    @relation(fields: [testId], references: [id], onDelete: Cascade)
+  reagent Reagent @relation(fields: [reagentId], references: [id], onDelete: Cascade)
+}
+
+model Expense {
+  id          String   @id @default(uuid())
+  category    String   // Utility, Rent, Consumables, Payroll, Marketing, Others
+  description String
+  amount      Float
+  voucherNo   String?
+  recordedBy  String
+  status      String   @default("Approved") // Pending, Approved
+  createdAt   DateTime @default(now())
+}
+
+model Employee {
+  id         String   @id @default(uuid())
+  name       String
+  role       String   // Admin, Receptionist, Accountant, Lab Technician
+  phone      String
+  email      String?
+  salary     Float
+  shiftType  String   // e.g. "Morning", "Evening", "Night"
+  status     String   @default("Active") // Active, Inactive
+  createdAt  DateTime @default(now())
+
+  attendance Attendance[]
+  salaries   SalaryPayment[]
+}
+
+model Attendance {
+  id         String   @id @default(uuid())
+  employeeId String
+  checkIn    DateTime
+  checkOut   DateTime?
+  status     String   // Present, Absent, Late, On Leave
+  date       String   // Format YYYY-MM-DD
+  createdAt  DateTime @default(now())
+
+  employee Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+}
+
+model SalaryPayment {
+  id         String   @id @default(uuid())
+  employeeId String
+  month      String   // e.g. "May 2026"
+  baseSalary Float
+  bonus      Float    @default(0)
+  deduction  Float    @default(0)
+  advSettle  Float    @default(0)
+  netPaid    Float
+  type       String   // Routine, Advance
+  createdAt  DateTime @default(now())
+
+  employee Employee @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+}
+
+model RefundRequest {
+  id         String   @id @default(uuid())
+  invoiceId  String
+  amount     Float
+  reason     String
+  status     String   // Pending, Approved, Rejected
+  refundMode String   // Cash, Card, Mobile Banking
+  createdAt  DateTime @default(now())
+
+  invoice BillingInvoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+}
+
+model SystemSetting {
+  id String @id @default("default")
+  
+  // Header Customization
+  labName        String   @default("CarePath Diagnostics")
+  address        String   @default("12/A Green Road, Dhanmondi, Dhaka")
+  hotline        String   @default("+880 1711-223344")
+  email          String   @default("info@carepath.com")
+  website        String   @default("www.carepath.com")
+  openingHours   String   @default("07:00 AM - 11:00 PM")
+  logoUrl        String?
+  signatureDoc   String?
+  signatureLab   String?
+
+  // Footer Customization
+  termsNote      String   @default("Report validity 1 month from date of publication.")
+  footerNote     String   @default("Certified ISO 9001:2015 Diagnostic Center")
+  barcodeEnabled Boolean  @default(true)
+
+  // Billing Configuration
+  vatPercent         Float   @default(5.0)
+  serviceChargeLimit Float   @default(0.0)
+  maxDiscountLimit   Float   @default(20.0) // percentage limit for receptionist
+  prefixInvoice      String  @default("LAB/2026/")
+}
