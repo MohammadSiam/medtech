@@ -245,42 +245,42 @@ export default function TestConfig() {
             <div className="text-center py-12 text-slate-400 font-medium font-mono text-xs">Loading master price list...</div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="w-full text-xs text-left text-slate-600">
+              <table className="w-full text-[10px] sm:text-xs text-left text-slate-600">
                 <thead>
                   <tr className="bg-slate-50 text-slate-500 font-bold border-b border-slate-100">
-                    <th className="py-2.5 px-3">Catalog Code</th>
-                    <th className="py-2.5 px-3">Test Standard Name</th>
-                    <th className="py-2.5 px-3">Field</th>
-                    <th className="py-2.5 px-3">Specimen Spec</th>
-                    <th className="py-2.5 px-3 text-right">Standard Price</th>
-                    <th className="py-2.5 px-3 text-right">Actions</th>
+                    <th className="py-2.5 px-2 sm:px-3">Code</th>
+                    <th className="py-2.5 px-2 sm:px-3">Test Standard Name</th>
+                    <th className="py-2.5 px-2 sm:px-3">Field</th>
+                    <th className="py-2.5 px-2 sm:px-3 hidden sm:table-cell">Specimen Spec</th>
+                    <th className="py-2.5 px-2 sm:px-3 text-right">Price</th>
+                    <th className="py-2.5 px-2 sm:px-3 text-right">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100 font-medium">
                   {filteredTests.map(test => (
                     <tr key={test.id} className="hover:bg-slate-50/70 transition">
-                      <td className="py-2.5 px-3 font-mono font-bold text-indigo-600">{test.code}</td>
-                      <td className="py-2.5 px-3">
-                        <div className="font-bold text-slate-800">{test.name}</div>
-                        <div className="text-[10px] text-slate-400 italic">Range: {test.normalRange.substring(0, 45)}...</div>
+                      <td className="py-2.5 px-2 sm:px-3 font-mono font-bold text-indigo-600">{test.code}</td>
+                      <td className="py-2.5 px-2 sm:px-3">
+                        <div className="font-bold text-slate-800 text-[11px] sm:text-xs">{test.name}</div>
+                        <div className="text-[9px] sm:text-[10px] text-slate-400 italic">Range: {test.normalRange.substring(0, 30)}...</div>
                       </td>
-                      <td className="py-2.5 px-3">
+                      <td className="py-2.5 px-2 sm:px-3">
                         <span className="font-semibold text-slate-700">{test.category}</span>
                       </td>
-                      <td className="py-2.5 px-3 font-mono text-slate-500">{test.specimenType}</td>
-                      <td className="py-2.5 px-3 text-right font-bold font-mono text-slate-800">৳{test.price.toLocaleString()}</td>
-                      <td className="py-2.5 px-3 text-right space-x-1">
+                      <td className="py-2.5 px-2 sm:px-3 font-mono text-slate-500 hidden sm:table-cell">{test.specimenType}</td>
+                      <td className="py-2.5 px-2 sm:px-3 text-right font-bold font-mono text-slate-800">৳{test.price.toLocaleString()}</td>
+                      <td className="py-2.5 px-2 sm:px-3 text-right space-x-0.5 sm:space-x-1 whitespace-nowrap">
                         <button 
                           onClick={() => handleEdit(test)}
-                          className="p-1 px-1.5 text-slate-500 hover:text-indigo-600 bg-slate-50 rounded"
+                          className="p-1 text-slate-500 hover:text-indigo-600 bg-slate-50 rounded"
                         >
-                          <Edit className="h-3.5 w-3.5" />
+                          <Edit className="h-3 sm:h-3.5 w-3 sm:w-3.5" />
                         </button>
                         <button 
                           onClick={() => handleDelete(test.id)}
-                          className="p-1 px-1.5 text-slate-400 hover:text-red-600 bg-slate-50 rounded"
+                          className="p-1 text-slate-400 hover:text-red-600 bg-slate-50 rounded"
                         >
-                          <Trash className="h-3.5 w-3.5" />
+                          <Trash className="h-3 sm:h-3.5 w-3 sm:w-3.5" />
                         </button>
                       </td>
                     </tr>

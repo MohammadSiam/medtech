@@ -76,19 +76,21 @@ export default function DashboardOverview() {
   return (
     <div className="space-y-6">
       {/* Top filter and action bar */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-white p-4 rounded-xl border border-slate-100 shadow-xs gap-3">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center bg-white p-3.5 sm:p-4 rounded-xl border border-slate-100 shadow-xs gap-3">
         <div>
-          <h2 className="text-xl font-bold text-slate-800">Operational Dashboard</h2>
-          <p className="text-xs text-slate-500 font-mono mt-0.5">Real-time stats based on patient registers & biochemical tests</p>
+          <h2 className="text-base sm:text-lg md:text-xl font-bold text-slate-800">Operational Dashboard</h2>
+          <p className="text-[10px] sm:text-xs text-slate-500 font-mono mt-0.5">Real-time stats based on patient registers & biochemical tests</p>
         </div>
         <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
-          <div className="flex items-center gap-1.5 bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-700">
-            <Calendar className="h-3.5 w-3.5 text-slate-400" />
-            <span>Range:</span>
+          <div className="flex items-center gap-1.5 bg-slate-50 border border-slate-200 px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-semibold text-slate-700 w-full sm:w-auto justify-between sm:justify-start">
+            <div className="flex items-center gap-1.5">
+              <Calendar className="h-3.5 w-3.5 text-slate-400" />
+              <span>Range:</span>
+            </div>
             <select 
               value={range} 
               onChange={(e) => setRange(e.target.value)}
-              className="bg-transparent focus:outline-none cursor-pointer"
+              className="bg-transparent focus:outline-none cursor-pointer text-slate-800 font-bold"
             >
               <option>Today</option>
               <option>This Week</option>
@@ -98,7 +100,7 @@ export default function DashboardOverview() {
 
           <button 
             onClick={exportSummaryToPDF}
-            className="flex items-center gap-1 bg-sky-500 hover:bg-sky-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold shadow-xs transition"
+            className="flex items-center justify-center gap-1 bg-sky-500 hover:bg-sky-600 text-white px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-semibold shadow-xs transition w-full sm:w-auto"
           >
             <Download className="h-3.5 w-3.5" />
             <span>Export Summary</span>
@@ -107,126 +109,126 @@ export default function DashboardOverview() {
       </div>
 
       {/* KPI 3x4 Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
         {/* KPI 1 */}
-        <div className="bg-white p-4 rounded-xl border border-slate-100 shadow-xs hover:shadow-md transition">
+        <div className="bg-white p-3 sm:p-4 rounded-xl border border-slate-100 shadow-xs hover:shadow-md transition">
           <div className="flex justify-between items-start">
-            <span className="text-xs font-semibold text-slate-400 tracking-wider uppercase">Total Patients</span>
-            <span className="p-1.5 bg-sky-50 text-sky-600 rounded-lg"><Users className="h-4 w-4" /></span>
+            <span className="text-[9px] sm:text-xs font-semibold text-slate-400 tracking-wider uppercase">Total Patients</span>
+            <span className="p-1 sm:p-1.5 bg-sky-50 text-sky-600 rounded-lg"><Users className="h-3.5 w-3.5 sm:h-4 sm:w-4" /></span>
           </div>
-          <div className="mt-2 text-2xl font-bold text-slate-800">{k.totalPatients}</div>
-          <div className="text-[10px] text-emerald-500 font-semibold flex items-center gap-0.5 mt-1 font-mono">
-            <TrendingUp className="h-3 w-3" /> +14.5% vs last period
+          <div className="mt-1 sm:mt-2 text-base sm:text-xl md:text-2xl font-bold text-slate-800">{k.totalPatients}</div>
+          <div className="text-[9px] sm:text-[10px] text-emerald-500 font-semibold flex items-center gap-0.5 mt-1 font-mono">
+            <TrendingUp className="h-3 w-3" /> +14.5% vs last
           </div>
         </div>
 
         {/* KPI 2 */}
-        <div className="bg-white p-4 rounded-xl border border-slate-100 shadow-xs hover:shadow-md transition">
+        <div className="bg-white p-3 sm:p-4 rounded-xl border border-slate-100 shadow-xs hover:shadow-md transition">
           <div className="flex justify-between items-start">
-            <span className="text-xs font-semibold text-slate-400 tracking-wider uppercase">Total Tests</span>
-            <span className="p-1.5 bg-emerald-50 text-emerald-600 rounded-lg"><Activity className="h-4 w-4" /></span>
+            <span className="text-[9px] sm:text-xs font-semibold text-slate-400 tracking-wider uppercase">Total Tests</span>
+            <span className="p-1 sm:p-1.5 bg-emerald-50 text-emerald-600 rounded-lg"><Activity className="h-3.5 w-3.5 sm:h-4 sm:w-4" /></span>
           </div>
-          <div className="mt-2 text-2xl font-bold text-slate-800">{k.totalTests}</div>
-          <div className="text-[10px] text-emerald-500 font-semibold flex items-center gap-0.5 mt-1 font-mono">
-            <TrendingUp className="h-3 w-3" /> Healthy diagnostic load
+          <div className="mt-1 sm:mt-2 text-base sm:text-xl md:text-2xl font-bold text-slate-800">{k.totalTests}</div>
+          <div className="text-[9px] sm:text-[10px] text-emerald-500 font-semibold flex items-center gap-0.5 mt-1 font-mono">
+            <TrendingUp className="h-3 w-3" /> Healthy load
           </div>
         </div>
 
         {/* KPI 3 */}
-        <div className="bg-white p-4 rounded-xl border border-slate-100 shadow-xs hover:shadow-md transition">
+        <div className="bg-white p-3 sm:p-4 rounded-xl border border-slate-100 shadow-xs hover:shadow-md transition">
           <div className="flex justify-between items-start">
-            <span className="text-xs font-semibold text-slate-400 tracking-wider uppercase">Total Gross Sales</span>
-            <span className="p-1.5 bg-indigo-50 text-indigo-600 rounded-lg"><DollarSign className="h-4 w-4" /></span>
+            <span className="text-[9px] sm:text-xs font-semibold text-slate-400 tracking-wider uppercase">Gross Sales</span>
+            <span className="p-1 sm:p-1.5 bg-indigo-50 text-indigo-600 rounded-lg"><DollarSign className="h-3.5 w-3.5 sm:h-4 sm:w-4" /></span>
           </div>
-          <div className="mt-2 text-2xl font-bold text-slate-800">৳ {k.totalSales.toLocaleString()}</div>
-          <div className="text-[10px] text-slate-400 font-medium mt-1">Sum of diagnostic test bills</div>
+          <div className="mt-1 sm:mt-2 text-base sm:text-xl md:text-2xl font-bold text-slate-800">৳ {k.totalSales.toLocaleString()}</div>
+          <div className="text-[9px] sm:text-[10px] text-slate-400 font-medium mt-1">Sum of test bills</div>
         </div>
 
         {/* KPI 4 */}
-        <div className="bg-white p-4 rounded-xl border border-slate-100 shadow-xs hover:shadow-md transition">
+        <div className="bg-white p-3 sm:p-4 rounded-xl border border-slate-100 shadow-xs hover:shadow-md transition">
           <div className="flex justify-between items-start">
-            <span className="text-xs font-semibold text-slate-400 tracking-wider uppercase">Total Discount</span>
-            <span className="p-1.5 bg-rose-50 text-rose-600 rounded-lg"><Percent className="h-4 w-4" /></span>
+            <span className="text-[9px] sm:text-xs font-semibold text-slate-400 tracking-wider uppercase">Total Discount</span>
+            <span className="p-1 sm:p-1.5 bg-rose-50 text-rose-600 rounded-lg"><Percent className="h-3.5 w-3.5 sm:h-4 sm:w-4" /></span>
           </div>
-          <div className="mt-2 text-2xl font-bold text-slate-800">৳ {k.totalDiscount.toLocaleString()}</div>
-          <div className="text-[10px] text-rose-500 font-semibold mt-1 font-mono">
-            Max limit caps active (20%)
+          <div className="mt-1 sm:mt-2 text-base sm:text-xl md:text-2xl font-bold text-slate-800">৳ {k.totalDiscount.toLocaleString()}</div>
+          <div className="text-[9px] sm:text-[10px] text-rose-500 font-semibold mt-1 font-mono">
+            Caps active (20%)
           </div>
         </div>
 
         {/* KPI 5 */}
-        <div className="bg-white p-4 rounded-xl border border-slate-100 shadow-xs hover:shadow-md transition">
+        <div className="bg-white p-3 sm:p-4 rounded-xl border border-slate-100 shadow-xs hover:shadow-md transition">
           <div className="flex justify-between items-start">
-            <span className="text-xs font-semibold text-slate-400 tracking-wider uppercase">Net Revenue</span>
-            <span className="p-1.5 bg-emerald-50 text-emerald-600 rounded-lg"><DollarSign className="h-4 w-4" /></span>
+            <span className="text-[9px] sm:text-xs font-semibold text-slate-400 tracking-wider uppercase">Net Revenue</span>
+            <span className="p-1 sm:p-1.5 bg-emerald-50 text-emerald-600 rounded-lg"><DollarSign className="h-3.5 w-3.5 sm:h-4 sm:w-4" /></span>
           </div>
-          <div className="mt-2 text-2xl font-bold text-slate-800">৳ {k.netSales.toLocaleString()}</div>
-          <div className="text-[10px] text-slate-400 font-medium mt-1">Sales minus discount limits</div>
+          <div className="mt-1 sm:mt-2 text-base sm:text-xl md:text-2xl font-bold text-slate-800">৳ {k.netSales.toLocaleString()}</div>
+          <div className="text-[9px] sm:text-[10px] text-slate-400 font-medium mt-1">Sales minus discounts</div>
         </div>
 
         {/* KPI 6 */}
-        <div className="bg-white p-4 rounded-xl border border-slate-100 shadow-xs hover:shadow-md transition">
+        <div className="bg-white p-3 sm:p-4 rounded-xl border border-slate-100 shadow-xs hover:shadow-md transition">
           <div className="flex justify-between items-start">
-            <span className="text-xs font-semibold text-slate-400 tracking-wider uppercase">Outstanding Due</span>
-            <span className="p-1.5 bg-amber-50 text-amber-600 rounded-lg"><AlertTriangle className="h-4 w-4" /></span>
+            <span className="text-[9px] sm:text-xs font-semibold text-slate-400 tracking-wider uppercase">Outstanding Due</span>
+            <span className="p-1 sm:p-1.5 bg-amber-50 text-amber-600 rounded-lg"><AlertTriangle className="h-3.5 w-3.5 sm:h-4 sm:w-4" /></span>
           </div>
-          <div className="mt-2 text-2xl font-bold text-amber-600">৳ {k.totalDue.toLocaleString()}</div>
-          <div className="text-[10px] text-amber-600 font-semibold flex items-center gap-0.5 mt-1 font-mono">
-            Requires receptionist alerts
+          <div className="mt-1 sm:mt-2 text-base sm:text-xl md:text-2xl font-bold text-amber-600">৳ {k.totalDue.toLocaleString()}</div>
+          <div className="text-[9px] sm:text-[10px] text-amber-600 font-semibold flex items-center gap-0.5 mt-1 font-mono">
+            Requires alerts
           </div>
         </div>
 
         {/* KPI 7 */}
-        <div className="bg-white p-4 rounded-xl border border-slate-100 shadow-xs hover:shadow-md transition">
+        <div className="bg-white p-3 sm:p-4 rounded-xl border border-slate-100 shadow-xs hover:shadow-md transition">
           <div className="flex justify-between items-start">
-            <span className="text-xs font-semibold text-slate-400 tracking-wider uppercase">Due Collection</span>
-            <span className="p-1.5 bg-teal-50 text-teal-600 rounded-lg"><CheckCircle className="h-4 w-4" /></span>
+            <span className="text-[9px] sm:text-xs font-semibold text-slate-400 tracking-wider uppercase">Due Collection</span>
+            <span className="p-1 sm:p-1.5 bg-teal-50 text-teal-600 rounded-lg"><CheckCircle className="h-3.5 w-3.5 sm:h-4 sm:w-4" /></span>
           </div>
-          <div className="mt-2 text-2xl font-bold text-slate-800">৳ {parseInt(k.dueCollection).toLocaleString()}</div>
-          <div className="text-[10px] text-teal-500 font-semibold mt-1">Past debts recovered</div>
+          <div className="mt-1 sm:mt-2 text-base sm:text-xl md:text-2xl font-bold text-slate-800">৳ {parseInt(k.dueCollection).toLocaleString()}</div>
+          <div className="text-[9px] sm:text-[10px] text-teal-500 font-semibold mt-1">Past recovered</div>
         </div>
 
         {/* KPI 8 */}
-        <div className="bg-white p-4 rounded-xl border border-slate-100 shadow-xs hover:shadow-md transition">
+        <div className="bg-white p-3 sm:p-4 rounded-xl border border-slate-100 shadow-xs hover:shadow-md transition">
           <div className="flex justify-between items-start">
-            <span className="text-xs font-semibold text-slate-400 tracking-wider uppercase">Total Collection</span>
-            <span className="p-1.5 bg-sky-50 text-sky-600 rounded-lg"><DollarSign className="h-4 w-4" /></span>
+            <span className="text-[9px] sm:text-xs font-semibold text-slate-400 tracking-wider uppercase">Total Collection</span>
+            <span className="p-1 sm:p-1.5 bg-sky-50 text-sky-600 rounded-lg"><DollarSign className="h-3.5 w-3.5 sm:h-4 sm:w-4" /></span>
           </div>
-          <div className="mt-2 text-2xl font-bold text-sky-600">৳ {parseInt(k.totalCollection).toLocaleString()}</div>
-          <div className="text-[10px] text-emerald-500 font-semibold tracking-wide mt-1 font-mono">
-            Collection Rate: {Math.round(k.collectionRate)}%
+          <div className="mt-1 sm:mt-2 text-base sm:text-xl md:text-2xl font-bold text-sky-600">৳ {parseInt(k.totalCollection).toLocaleString()}</div>
+          <div className="text-[9px] sm:text-[10px] text-emerald-500 font-semibold tracking-wide mt-1 font-mono">
+            Rate: {Math.round(k.collectionRate)}%
           </div>
         </div>
 
         {/* KPI 9 */}
-        <div className="bg-white p-4 rounded-xl border border-slate-100 shadow-xs hover:shadow-md transition">
+        <div className="bg-white p-3 sm:p-4 rounded-xl border border-slate-100 shadow-xs hover:shadow-md transition">
           <div className="flex justify-between items-start">
-            <span className="text-xs font-semibold text-slate-400 tracking-wider uppercase">Expenses Paid</span>
-            <span className="p-1.5 bg-rose-50 text-rose-600 rounded-lg"><TrendingUp className="h-4 w-4" /></span>
+            <span className="text-[9px] sm:text-xs font-semibold text-slate-400 tracking-wider uppercase">Expenses Paid</span>
+            <span className="p-1 sm:p-1.5 bg-rose-50 text-rose-600 rounded-lg"><TrendingUp className="h-3.5 w-3.5 sm:h-4 sm:w-4" /></span>
           </div>
-          <div className="mt-2 text-2xl font-bold text-slate-800">৳ {k.expense.toLocaleString()}</div>
-          <div className="text-[10px] text-slate-400 font-medium mt-1">Office utilities, stock kits & payroll</div>
+          <div className="mt-1 sm:mt-2 text-base sm:text-xl md:text-2xl font-bold text-slate-800">৳ {k.expense.toLocaleString()}</div>
+          <div className="text-[9px] sm:text-[10px] text-slate-400 font-medium mt-1">Utilities & stock</div>
         </div>
 
         {/* KPI 10 */}
-        <div className="bg-white p-4 rounded-xl border border-slate-100 shadow-xs hover:shadow-md transition">
+        <div className="bg-white p-3 sm:p-4 rounded-xl border border-slate-100 shadow-xs hover:shadow-md transition">
           <div className="flex justify-between items-start">
-            <span className="text-xs font-semibold text-slate-400 tracking-wider uppercase">Total Refund</span>
-            <span className="p-1.5 bg-violet-50 text-violet-600 rounded-lg"><Activity className="h-4 w-4" /></span>
+            <span className="text-[9px] sm:text-xs font-semibold text-slate-400 tracking-wider uppercase">Total Refund</span>
+            <span className="p-1 sm:p-1.5 bg-violet-50 text-violet-600 rounded-lg"><Activity className="h-3.5 w-3.5 sm:h-4 sm:w-4" /></span>
           </div>
-          <div className="mt-2 text-2xl font-bold text-slate-805">৳ {k.refund.toLocaleString()}</div>
-          <div className="text-[10px] text-slate-400 font-medium mt-1">Patient refund transactions</div>
+          <div className="mt-1 sm:mt-2 text-base sm:text-xl md:text-2xl font-bold text-slate-800">৳ {k.refund.toLocaleString()}</div>
+          <div className="text-[9px] sm:text-[10px] text-slate-400 font-medium mt-1">Patient refunds</div>
         </div>
 
         {/* KPI 11 */}
-        <div className="bg-white p-4 rounded-xl border border-slate-100 shadow-xs hover:shadow-md transition col-span-2 md:col-span-1 lg:col-span-2">
+        <div className="bg-white p-3 sm:p-4 rounded-xl border border-slate-100 shadow-xs hover:shadow-md transition col-span-2 md:col-span-1 lg:col-span-2">
           <div className="flex justify-between items-start">
-            <span className="text-xs font-semibold text-teal-600 tracking-wider uppercase font-mono">Closing Balance (Net Cash)</span>
-            <span className="p-1.5 bg-emerald-50 text-emerald-600 rounded-lg"><DollarSign className="h-4 w-4" /></span>
+            <span className="text-[9px] sm:text-sm font-semibold text-teal-600 tracking-wider uppercase font-mono">Closing Balance (Net Cash)</span>
+            <span className="p-1 sm:p-1.5 bg-emerald-50 text-emerald-600 rounded-lg"><DollarSign className="h-3.5 w-3.5 sm:h-4 sm:w-4" /></span>
           </div>
-          <div className="mt-2 text-2xl font-extrabold text-emerald-600">৳ {parseInt(k.netCash).toLocaleString()}</div>
-          <div className="text-[10px] text-slate-500 font-mono mt-1 font-semibold">
-            Formula: Collection (৳{parseInt(k.totalCollection)}) - Expenses (৳{k.expense}) - Refunds (৳{k.refund})
+          <div className="mt-1 sm:mt-2 text-base sm:text-xl md:text-2xl font-extrabold text-emerald-600">৳ {parseInt(k.netCash).toLocaleString()}</div>
+          <div className="text-[9px] sm:text-[10px] text-slate-505 font-mono mt-1 font-semibold leading-relaxed">
+            In (৳{parseInt(k.totalCollection)}) - Expenses (৳{k.expense}) - Refunds (৳{k.refund})
           </div>
         </div>
       </div>

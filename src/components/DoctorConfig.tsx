@@ -231,27 +231,27 @@ export default function DoctorConfig() {
           <div className="text-center py-12 text-slate-400 font-medium font-mono text-xs">Locating records...</div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-xs text-left text-slate-600 border-collapse">
+            <table className="w-full text-[10px] sm:text-xs text-left text-slate-600 border-collapse">
               <thead>
                 <tr className="bg-slate-50 text-slate-500 font-bold border-b border-slate-100">
-                  <th className="py-3 px-4">Code</th>
-                  <th className="py-3 px-4">Practitioner Name</th>
-                  <th className="py-3 px-4">Category</th>
-                  <th className="py-3 px-4">BMDC Registration</th>
-                  <th className="py-3 px-4 text-center">Referral Rates</th>
-                  <th className="py-3 px-4 text-right">Actions</th>
+                  <th className="py-2.5 sm:py-3 px-2 sm:px-4">Code</th>
+                  <th className="py-2.5 sm:py-3 px-2 sm:px-4">Practitioner Name</th>
+                  <th className="py-2.5 sm:py-3 px-1 sm:px-4">Category</th>
+                  <th className="py-2.5 sm:py-3 px-2 sm:px-4 hidden sm:table-cell">BMDC Registration</th>
+                  <th className="py-2.5 sm:py-3 px-1 sm:px-4 text-center">Referral Rates</th>
+                  <th className="py-2.5 sm:py-3 px-2 sm:px-4 text-right">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 font-medium">
                 {doctors.map(doc => (
                   <tr key={doc.id} className="hover:bg-slate-50/70 transition">
-                    <td className="py-3 px-4 font-mono font-bold text-sky-600">{doc.code}</td>
-                    <td className="py-3 px-4">
-                      <div className="font-bold text-slate-800">{doc.name}</div>
-                      <div className="text-[10px] text-slate-400 font-semibold">{doc.specialization}</div>
+                    <td className="py-2.5 sm:py-3 px-2 sm:px-4 font-mono font-bold text-sky-600">{doc.code}</td>
+                    <td className="py-2.5 sm:py-3 px-2 sm:px-4">
+                      <div className="font-bold text-slate-800 text-[11px] sm:text-xs">{doc.name}</div>
+                      <div className="text-[9px] sm:text-[10px] text-slate-400 font-semibold">{doc.specialization}</div>
                     </td>
-                    <td className="py-3 px-4">
-                      <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                    <td className="py-2.5 sm:py-3 px-1 sm:px-4">
+                      <span className={`px-1.5 py-0.5 rounded text-[9px] sm:text-[10px] font-bold ${
                         doc.type === "Consultant" ? "bg-indigo-50 text-indigo-700" :
                         doc.type === "Lab Doctor" ? "bg-teal-50 text-teal-700" :
                         "bg-amber-50 text-amber-700"
@@ -259,28 +259,26 @@ export default function DoctorConfig() {
                         {doc.type}
                       </span>
                     </td>
-                    <td className="py-3 px-4 font-mono text-slate-500">{doc.bmdcNumber || "N/A"}</td>
-                    <td className="py-3 px-4 text-center">
+                    <td className="py-2.5 sm:py-3 px-2 sm:px-4 font-mono text-slate-500 hidden sm:table-cell">{doc.bmdcNumber || "N/A"}</td>
+                    <td className="py-2.5 sm:py-3 px-1 sm:px-4 text-center font-mono text-emerald-600 font-bold text-[10px] sm:text-xs">
                       {doc.commissionCategory === "No Commission" ? (
-                        <span className="text-slate-400">None</span>
+                        <span className="text-slate-400 font-sans font-normal text-[9px] sm:text-xs">None</span>
                       ) : (
-                        <span className="font-mono text-emerald-600 font-bold">
-                          {doc.commissionCategory === "Per Test" ? `${doc.commissionValue}% / Test` : `৳${doc.commissionValue} (Fixed)`}
-                        </span>
+                        doc.commissionCategory === "Per Test" ? `${doc.commissionValue}%` : `৳${doc.commissionValue}`
                       )}
                     </td>
-                    <td className="py-3 px-4 text-right space-x-1">
+                    <td className="py-2.5 sm:py-3 px-2 sm:px-4 text-right space-x-0.5 sm:space-x-1 whitespace-nowrap">
                       <button 
                         onClick={() => handleEdit(doc)}
-                        className="p-1 px-1.5 text-slate-500 hover:text-sky-600 bg-slate-50 rounded"
+                        className="p-1 text-slate-500 hover:text-sky-600 bg-slate-50 rounded"
                       >
-                        <Edit className="h-3.5 w-3.5" />
+                        <Edit className="h-3 sm:h-3.5 w-3 sm:w-3.5" />
                       </button>
                       <button 
                         onClick={() => handleDelete(doc.id)}
-                        className="p-1 px-1.5 text-slate-400 hover:text-red-600 bg-slate-50 rounded"
+                        className="p-1 text-slate-400 hover:text-red-600 bg-slate-50 rounded"
                       >
-                        <Trash className="h-3.5 w-3.5" />
+                        <Trash className="h-3 sm:h-3.5 w-3 sm:w-3.5" />
                       </button>
                     </td>
                   </tr>
