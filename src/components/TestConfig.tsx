@@ -21,7 +21,7 @@ export default function TestConfig() {
     try {
       const res = await fetch("/api/tests");
       const list = await res.json();
-      setTests(list);
+      setTests(Array.isArray(list) ? list : []);
     } catch (err) {
       console.error(err);
     } finally {

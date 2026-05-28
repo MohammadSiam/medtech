@@ -21,7 +21,7 @@ export default function DoctorConfig() {
     try {
       const res = await fetch("/api/doctors");
       const list = await res.json();
-      setDoctors(list);
+      setDoctors(Array.isArray(list) ? list : []);
     } catch (err) {
       console.error(err);
     } finally {

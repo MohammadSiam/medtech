@@ -18,7 +18,7 @@ export default function LabManagement() {
     try {
       const res = await fetch("/api/billing");
       const list = await res.json();
-      setInvoices(list);
+      setInvoices(Array.isArray(list) ? list : []);
     } catch (err) {
       console.error(err);
     } finally {

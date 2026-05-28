@@ -24,11 +24,11 @@ export default function AppointmentManagement() {
     try {
       const aRes = await fetch("/api/appointments");
       const aList = await aRes.json();
-      setAppointments(aList);
+      setAppointments(Array.isArray(aList) ? aList : []);
 
       const dRes = await fetch("/api/doctors");
       const dList = await dRes.json();
-      const activeDocs = dList.filter((d: any) => d.status === "Active");
+      const activeDocs = Array.isArray(dList) ? dList.filter((d: any) => d.status === "Active") : [];
       setDoctors(activeDocs);
       if (activeDocs.length > 0) setSelectedDoctorId(activeDocs[0].id);
     } catch (err) {

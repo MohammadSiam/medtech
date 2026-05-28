@@ -28,13 +28,15 @@ export default function ReagentConfig() {
     try {
       const rRes = await fetch("/api/reagents");
       const rList = await rRes.json();
-      setReagents(rList);
+      const rArr = Array.isArray(rList) ? rList : [];
+      setReagents(rArr);
 
       const tRes = await fetch("/api/tests");
       const tList = await tRes.json();
-      setTests(tList);
-      if (tList.length > 0) setSelectedTestId(tList[0].id);
-      if (rList.length > 0) setSelectedReagentId(rList[0].id);
+      const tArr = Array.isArray(tList) ? tList : [];
+      setTests(tArr);
+      if (tArr.length > 0) setSelectedTestId(tArr[0].id);
+      if (rArr.length > 0) setSelectedReagentId(rArr[0].id);
     } catch (err) {
       console.error(err);
     } finally {

@@ -41,19 +41,20 @@ export default function AccountHR() {
     try {
       const emRes = await fetch("/api/hr/employees");
       const emList = await emRes.json();
-      setEmployees(emList);
-      if (emList.length > 0) {
-        setClockEmployeeId(emList[0].id);
-        setPayEmployeeId(emList[0].id);
+      const emArr = Array.isArray(emList) ? emList : [];
+      setEmployees(emArr);
+      if (emArr.length > 0) {
+        setClockEmployeeId(emArr[0].id);
+        setPayEmployeeId(emArr[0].id);
       }
 
       const exRes = await fetch("/api/expenses");
       const exList = await exRes.json();
-      setExpenses(exList);
+      setExpenses(Array.isArray(exList) ? exList : []);
 
       const atRes = await fetch("/api/hr/attendance");
       const atList = await atRes.json();
-      setAttendance(atList);
+      setAttendance(Array.isArray(atList) ? atList : []);
     } catch (err) {
       console.error(err);
     } finally {

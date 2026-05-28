@@ -15,15 +15,15 @@ export default function ReportsCenter() {
     try {
       const iRes = await fetch("/api/billing");
       const iList = await iRes.json();
-      setInvoices(iList);
+      setInvoices(Array.isArray(iList) ? iList : []);
 
       const dRes = await fetch("/api/doctors");
       const dList = await dRes.json();
-      setDoctors(dList);
+      setDoctors(Array.isArray(dList) ? dList : []);
 
       const exRes = await fetch("/api/expenses");
       const exList = await exRes.json();
-      setExpenses(exList);
+      setExpenses(Array.isArray(exList) ? exList : []);
     } catch (err) {
       console.error(err);
     } finally {

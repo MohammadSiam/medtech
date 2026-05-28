@@ -45,16 +45,18 @@ export default function ReceptionBilling() {
     try {
       const iRes = await fetch("/api/billing");
       const iList = await iRes.json();
-      setInvoices(iList);
+      setInvoices(Array.isArray(iList) ? iList : []);
 
       const dRes = await fetch("/api/doctors");
       const dList = await dRes.json();
-      setDoctors(dList.filter((d: any) => d.status === "Active"));
-      if (dList.length > 0) setReferredById(dList[0].id);
+      const dArr = Array.isArray(dList) ? dList : [];
+      setDoctors(dArr.filter((d: any) => d.status === "Active"));
+      if (dArr.length > 0) setReferredById(dArr[0].id);
 
       const tRes = await fetch("/api/tests");
       const tList = await tRes.json();
-      setTests(tList.filter((t: any) => t.status === "Active"));
+      const tArr = Array.isArray(tList) ? tList : [];
+      setTests(tArr.filter((t: any) => t.status === "Active"));
     } catch (err) {
       console.error(err);
     } finally {
